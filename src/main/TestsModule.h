@@ -11,5 +11,6 @@ class TestsModule {
     void testInductiveSensor();
     void testEncoder();
     void testBrakeActuator();
+    void testStepper();
 };
 #endif

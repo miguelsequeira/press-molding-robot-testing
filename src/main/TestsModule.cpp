@@ -5,6 +5,7 @@
 #include "InductiveSensor.h"
 #include "Encoder.h"
 #include "BrakeActuator.h"
+#include "Stepper.h"
 
 
 Led leds[] = {Led(CONTROLLINO_D0), Led(CONTROLLINO_D1), Led(CONTROLLINO_D2), Led(CONTROLLINO_D3), Led(CONTROLLINO_D4), Led(CONTROLLINO_D5), Led(CONTROLLINO_D6), Led(CONTROLLINO_D7),
@@ -15,13 +16,25 @@ TestsModule::TestsModule() {
 }
 
 void TestsModule::run() {
-
-    testLeds();
-    testInductiveSensor();
-    testEncoder();
-    testBrakeActuator();
+      //testLeds();
+//    testStepper();
+//    testInductiveSensor();
+//    testEncoder();
+//    testBrakeActuator();
 }
 
+void TestsModule::testStepper() {
+    Stepper stepper = Stepper(CONTROLLINO_D3, CONTROLLINO_D4, CONTROLLINO_D5);
+
+    stepper.setEnabled(HIGH);
+    stepper.setDirection(LOW);
+    stepper.setAppliedPower(1);
+    delay(2000);
+    stepper.setAppliedPower(0);
+    stepper.setDirection(HIGH);
+    stepper.setAppliedPower(5);
+    delay(2000);
+}
 
 void TestsModule::testBrakeActuator() {
     BrakeActuator breakActuator = BrakeActuator(CONTROLLINO_D0);
@@ -65,4 +78,3 @@ void TestsModule::testLeds() {
       delay(100);
     }
 }
-
