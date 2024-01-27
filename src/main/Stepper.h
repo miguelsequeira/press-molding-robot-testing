@@ -14,7 +14,7 @@ class Stepper {
     Stepper(byte enablePin, byte directionPin, byte pulsePin);
 
     void init();
-    void Stepper::setEnabled(int enabled);
+    void setEnabled(int enabled);
     void setDirection(int direction);
     void setAppliedPower(int appliedPower);
     int getAppliedPower();
