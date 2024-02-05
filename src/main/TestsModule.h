@@ -7,11 +7,14 @@ class TestsModule {
     TestsModule();
 
     void run();
+    void disableAll();
     void testLeds();
     void testInductiveSensor();
     void testEncoder();
     void testBrakeActuator();
-    void testStepper();
+    void testStepperYY();
+    void testStepperZZ();
     void testLinearActuator();
+    void testPushPullMotor();
 };
 #endif

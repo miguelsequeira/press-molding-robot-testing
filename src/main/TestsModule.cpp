@@ -7,44 +7,82 @@
 #include "BrakeActuator.h"
 #include "Stepper.h"
 #include "LinearActuator.h"
+#include "PushPullMotor.h"
 
 
 Led leds[] = {Led(CONTROLLINO_D0), Led(CONTROLLINO_D1), Led(CONTROLLINO_D2), Led(CONTROLLINO_D3), Led(CONTROLLINO_D4), Led(CONTROLLINO_D5), Led(CONTROLLINO_D6), Led(CONTROLLINO_D7),
               Led(CONTROLLINO_D8), Led(CONTROLLINO_D9), Led(CONTROLLINO_D10), Led(CONTROLLINO_D11), Led(CONTROLLINO_D12), Led(CONTROLLINO_D13), Led(CONTROLLINO_D14), Led(CONTROLLINO_D15),
               Led(CONTROLLINO_D16), Led(CONTROLLINO_D17), Led(CONTROLLINO_D18), Led(CONTROLLINO_D19), Led(CONTROLLINO_D20), Led(CONTROLLINO_D21), Led(CONTROLLINO_D22), Led(CONTROLLINO_D23)};
 
+Stepper stepperYY = Stepper(CONTROLLINO_D3, CONTROLLINO_D4, CONTROLLINO_D5);
+Stepper stepperZZ = Stepper(CONTROLLINO_D0, CONTROLLINO_D1, CONTROLLINO_D2);
+LinearActuator linearActuator = LinearActuator(CONTROLLINO_D6, CONTROLLINO_D7);
+PushPullMotor pushPullMotor = PushPullMotor(CONTROLLINO_R14, CONTROLLINO_R15);
+
+
+
 TestsModule::TestsModule() {
 }
 
 void TestsModule::run() {
+
+    disableAll();
+  
       //testLeds();
-//    testStepper();
-//    testLinearActuator();
+    testStepperYY();
+    //testStepperZZ();
+    testLinearActuator();
+    testPushPullMotor();
 //    testInductiveSensor();
 //    testEncoder();
 //    testBrakeActuator();
 }
 
-void TestsModule::testStepper() {
-    Stepper stepper = Stepper(CONTROLLINO_D3, CONTROLLINO_D4, CONTROLLINO_D5);
+void TestsModule::disableAll() {
+  stepperYY.setEnabled(LOW);
+  stepperZZ.setEnabled(LOW);
+  linearActuator.setDirection(HIGH);
+  pushPullMotor.setEnabled(LOW);
+}
 
-    stepper.setEnabled(HIGH);
-    stepper.setDirection(LOW);
-    stepper.setAppliedPower(1);
+void TestsModule::testPushPullMotor() {
+    pushPullMotor.setDirection(LOW);
     delay(2000);
-    stepper.setAppliedPower(0);
-    stepper.setDirection(HIGH);
-    stepper.setAppliedPower(5);
+    pushPullMotor.setDirection(HIGH);
     delay(2000);
 }
 
+void TestsModule::testStepperYY() {
+
+    stepperYY.setEnabled(HIGH);
+    stepperYY.setDirection(LOW);
+    stepperYY.setAppliedPower(1);
+    delay(2000);
+    stepperYY.setAppliedPower(5);
+    stepperYY.setDirection(HIGH);
+    delay(2000);
+    stepperYY.setAppliedPower(0);
+    stepperYY.setEnabled(LOW);
+}
+
+
+void TestsModule::testStepperZZ() {
+
+    stepperZZ.setEnabled(HIGH);
+    stepperZZ.setDirection(LOW);
+    stepperZZ.setAppliedPower(1);
+    delay(2000);
+    stepperZZ.setAppliedPower(5);
+    stepperZZ.setDirection(HIGH);
+    delay(2000);
+    stepperZZ.setAppliedPower(0);
+    stepperZZ.setEnabled(LOW);
+}
+
 void TestsModule::testLinearActuator() {
-    LinearActuator linearActuator = LinearActuator(CONTROLLINO_D6, CONTROLLINO_D7);
 
     linearActuator.setEnabled(HIGH);
     linearActuator.setDirection(LOW);
-    delay(2000);
-    linearActuator.setDirection(HIGH);
     delay(2000);
     linearActuator.setEnabled(LOW);
     linearActuator.setDirection(LOW);
@@ -81,9 +119,6 @@ void TestsModule::testInductiveSensor() {
 
 
 void TestsModule::testLeds() {
-    Led leds[] = {Led(CONTROLLINO_D0), Led(CONTROLLINO_D1), Led(CONTROLLINO_D2), Led(CONTROLLINO_D3), Led(CONTROLLINO_D4), Led(CONTROLLINO_D5), Led(CONTROLLINO_D6), Led(CONTROLLINO_D7),
-              Led(CONTROLLINO_D8), Led(CONTROLLINO_D9), Led(CONTROLLINO_D10), Led(CONTROLLINO_D11), Led(CONTROLLINO_D12), Led(CONTROLLINO_D13), Led(CONTROLLINO_D14), Led(CONTROLLINO_D15),
-              Led(CONTROLLINO_D16), Led(CONTROLLINO_D17), Led(CONTROLLINO_D18), Led(CONTROLLINO_D19), Led(CONTROLLINO_D20), Led(CONTROLLINO_D21), Led(CONTROLLINO_D22), Led(CONTROLLINO_D23)};
 
     for (int j = 7; j >= 0; j--) {
       for (int i = 0; i <= j; i++) {
