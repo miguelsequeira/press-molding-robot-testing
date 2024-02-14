@@ -10,14 +10,21 @@ void PushPullMotor::init() {
   pinMode(backwardPin, OUTPUT);
 }
 
-void PushPullMotor::setEnabled(int enabled) {
-    // TODO: implement
-    digitalWrite(forwardPin, enabled);
-    digitalWrite(backwardPin, enabled);
+void PushPullMotor::setEnabled(int enable) {
+    this->enable = enable;
+    if(enable==LOW) {
+        digitalWrite(forwardPin, LOW);
+        digitalWrite(backwardPin, LOW);
+    } else {
+        setDirection(this->direction);
+    }
 }
 
 void PushPullMotor::setDirection(int direction) {
     this->direction = direction;
+
+    if(this->enable==LOW)
+        return;
 
     if(direction==LOW) {
         digitalWrite(forwardPin, LOW);
@@ -26,15 +33,4 @@ void PushPullMotor::setDirection(int direction) {
         digitalWrite(forwardPin, HIGH);
         digitalWrite(backwardPin, LOW);  
     }
-    
-}
-
-void PushPullMotor::setAppliedPower(int appliedPower) {
-    // TODO:implement
-    this->appliedPower = appliedPower;
-    //analogWrite(pulsePin, appliedPower);
-}
-
-int PushPullMotor::getAppliedPower() {
-    return appliedPower;
 }

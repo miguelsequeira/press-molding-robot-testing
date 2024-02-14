@@ -18,6 +18,7 @@ Stepper stepperYY = Stepper(CONTROLLINO_D3, CONTROLLINO_D4, CONTROLLINO_D5);
 Stepper stepperZZ = Stepper(CONTROLLINO_D0, CONTROLLINO_D1, CONTROLLINO_D2);
 LinearActuator linearActuator = LinearActuator(CONTROLLINO_D6, CONTROLLINO_D7);
 PushPullMotor pushPullMotor = PushPullMotor(CONTROLLINO_R14, CONTROLLINO_R15);
+InductiveSensor sensor = InductiveSensor(CONTROLLINO_A1);
 
 
 
@@ -27,13 +28,14 @@ TestsModule::TestsModule() {
 void TestsModule::run() {
 
     disableAll();
-  
-      //testLeds();
+
     testStepperYY();
-    //testStepperZZ();
+    testStepperZZ();
     testLinearActuator();
     testPushPullMotor();
-//    testInductiveSensor();
+
+
+    //testInductiveSensor();
 //    testEncoder();
 //    testBrakeActuator();
 }
@@ -46,6 +48,7 @@ void TestsModule::disableAll() {
 }
 
 void TestsModule::testPushPullMotor() {
+    pushPullMotor.setEnabled(HIGH);
     pushPullMotor.setDirection(LOW);
     delay(2000);
     pushPullMotor.setDirection(HIGH);
@@ -72,7 +75,7 @@ void TestsModule::testStepperZZ() {
     stepperZZ.setDirection(LOW);
     stepperZZ.setAppliedPower(1);
     delay(2000);
-    stepperZZ.setAppliedPower(5);
+    stepperZZ.setAppliedPower(50);
     stepperZZ.setDirection(HIGH);
     delay(2000);
     stepperZZ.setAppliedPower(0);
@@ -110,11 +113,10 @@ void TestsModule::testEncoder() {
 }
 
 void TestsModule::testInductiveSensor() {
-    InductiveSensor sensor = InductiveSensor(CONTROLLINO_D0);
-
     if(sensor.isClosed()) {
         Serial.println("Object Detected");
-    }
+    } else {
+    }   Serial.println("Object Not Detected");
 }
 
 

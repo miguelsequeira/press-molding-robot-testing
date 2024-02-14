@@ -4,7 +4,6 @@
 class PushPullMotor {
 
   private:
-    int appliedPower;
     int direction;
     int enable;
     byte forwardPin;
@@ -16,7 +15,5 @@ class PushPullMotor {
     void init();
     void setEnabled(int enabled);
     void setDirection(int direction);
-    void setAppliedPower(int appliedPower);
-    int getAppliedPower();
 };
 #endif

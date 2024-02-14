@@ -6,7 +6,7 @@
 void setup() {
     Serial.begin(9600); // open the serial port at 9600 bps:
 
-    int machineOn = HIGH;
+    int machineOn = LOW;
     
     // In service
     digitalWrite(CONTROLLINO_R0, machineOn); // Security Contactor

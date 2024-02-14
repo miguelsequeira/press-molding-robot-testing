@@ -7,8 +7,9 @@ void InductiveSensor::init() {
   pinMode(pin, INPUT);
 }
 bool InductiveSensor::isClosed() {
-    int value = digitalRead(pin);
-    if(value != LOW)
+    int value = analogRead(pin);
+    Serial.println(value);
+    if(value > 0)
     {
       return true;
     } else{
