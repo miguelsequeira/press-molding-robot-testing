@@ -8,43 +8,73 @@
 #include "Stepper.h"
 #include "LinearActuator.h"
 #include "PushPullMotor.h"
+#include <Encoder.h>
 
 
-Led leds[] = {Led(CONTROLLINO_D0), Led(CONTROLLINO_D1), Led(CONTROLLINO_D2), Led(CONTROLLINO_D3), Led(CONTROLLINO_D4), Led(CONTROLLINO_D5), Led(CONTROLLINO_D6), Led(CONTROLLINO_D7),
-              Led(CONTROLLINO_D8), Led(CONTROLLINO_D9), Led(CONTROLLINO_D10), Led(CONTROLLINO_D11), Led(CONTROLLINO_D12), Led(CONTROLLINO_D13), Led(CONTROLLINO_D14), Led(CONTROLLINO_D15),
-              Led(CONTROLLINO_D16), Led(CONTROLLINO_D17), Led(CONTROLLINO_D18), Led(CONTROLLINO_D19), Led(CONTROLLINO_D20), Led(CONTROLLINO_D21), Led(CONTROLLINO_D22), Led(CONTROLLINO_D23)};
+Led leds[] = {Led(CONTROLLINO_D8), Led(CONTROLLINO_D9), Led(CONTROLLINO_D10)};
 
 Stepper stepperYY = Stepper(CONTROLLINO_D3, CONTROLLINO_D4, CONTROLLINO_D5);
 Stepper stepperZZ = Stepper(CONTROLLINO_D0, CONTROLLINO_D1, CONTROLLINO_D2);
 LinearActuator linearActuator = LinearActuator(CONTROLLINO_D6, CONTROLLINO_D7);
 PushPullMotor pushPullMotor = PushPullMotor(CONTROLLINO_R14, CONTROLLINO_R15);
 InductiveSensor sensor = InductiveSensor(CONTROLLINO_A1);
-
-
+BrakeActuator brakeActuator = BrakeActuator(CONTROLLINO_R12);
+Encoder encoder = Encoder(CONTROLLINO_IN0, CONTROLLINO_IN1);
 
 TestsModule::TestsModule() {
 }
 
 void TestsModule::run() {
-
+//
     disableAll();
 
-    testStepperYY();
-    testStepperZZ();
-    testLinearActuator();
-    testPushPullMotor();
+//    testStepperYY();
+//    testStepperZZ();
+//    testLinearActuator();
+//    testPushPullMotor();
 
 
-    //testInductiveSensor();
-//    testEncoder();
+//    testInductiveSensor();
+    //testEncoder();
 //    testBrakeActuator();
+
+    //testLeds();
 }
 
 void TestsModule::disableAll() {
+  brakeActuator.setBrake(LOW);
   stepperYY.setEnabled(LOW);
   stepperZZ.setEnabled(LOW);
-  linearActuator.setDirection(HIGH);
+  linearActuator.setEnabled(LOW);
   pushPullMotor.setEnabled(LOW);
+}
+
+void TestsModule::testEncoder() {
+    long positionLeft  = -999;
+    long positionRight = -999;
+
+   long newLeft, newRight;
+   newLeft = encoder.read();
+   if (newLeft != positionLeft ) {
+     Serial.print("Encoder position = ");
+     Serial.print(newLeft);
+     Serial.println();
+     positionLeft = newLeft;
+   }
+   // if a character is sent from the serial monitor,
+   // reset both back to zero.
+   if (Serial.available()) {
+     Serial.read();
+     Serial.println("Reset encoder back to zero");
+     encoder.write(0);
+   }
+}
+
+void TestsModule::testBrakeActuator() {
+    brakeActuator.setBrake(HIGH);
+    delay(2000);
+    brakeActuator.setBrake(LOW);
+    delay(2000);
 }
 
 void TestsModule::testPushPullMotor() {
@@ -84,51 +114,43 @@ void TestsModule::testStepperZZ() {
 
 void TestsModule::testLinearActuator() {
 
+    delay(2000);
     linearActuator.setEnabled(HIGH);
     linearActuator.setDirection(LOW);
     delay(2000);
-    linearActuator.setEnabled(LOW);
-    linearActuator.setDirection(LOW);
+    linearActuator.setEnabled(HIGH);
+    linearActuator.setDirection(HIGH);
     delay(2000);
 
-    linearActuator.setDirection(HIGH);
+    linearActuator.setEnabled(LOW);
 }
-
-void TestsModule::testBrakeActuator() {
-    BrakeActuator breakActuator = BrakeActuator(CONTROLLINO_D0);
-
-    int b = breakActuator.getAppliedPower();
-    breakActuator.setDirection(3);
-    breakActuator.setAppliedPower(12);
-}
-
-void TestsModule::testEncoder() {
-    Encoder encoder = Encoder(CONTROLLINO_D0);
-
-    int a = encoder.getRelativePosition();
-    int b = encoder.getConstantSpeed();
-    int c = encoder.getDirection();
-    encoder.setDegreeFactor(1);
-    encoder.setMultiplyFactor(2);
-}
+//
+//void TestsModule::testEncoder() {
+//    Encoder encoder = Encoder(CONTROLLINO_D0);
+//
+//    int a = encoder.getRelativePosition();
+//    int b = encoder.getConstantSpeed();
+//    int c = encoder.getDirection();
+//    encoder.setDegreeFactor(1);
+//    encoder.setMultiplyFactor(2);
+//}
 
 void TestsModule::testInductiveSensor() {
     if(sensor.isClosed()) {
+        leds[2].on();
         Serial.println("Object Detected");
     } else {
-    }   Serial.println("Object Not Detected");
+        leds[2].off();
+        Serial.println("Object Not Detected");
+    }
 }
 
 
 void TestsModule::testLeds() {
 
-    for (int j = 7; j >= 0; j--) {
-      for (int i = 0; i <= j; i++) {
-        leds[i].on();
-        delay(100);
-        leds[i].off();
-      }
-      leds[j].on();
-      delay(100);
+    for (int i = 0; i <= 2; i++) {
+      leds[i].on();
+      delay(5000);
+      leds[i].off();
     }
 }

@@ -1,7 +1,7 @@
-#ifndef ENCODER_H
-#define ENCODER_H
+#ifndef MY_ENCODER_H
+#define MY_ENCODER_H
 #include <Arduino.h>
-class Encoder {
+class MyEncoder {
 
   private:
     int relativePosition;
@@ -12,7 +12,7 @@ class Encoder {
     byte pin;
 
   public:
-    Encoder(byte pin);
+    MyEncoder(byte pin);
 
     void init();
     int getRelativePosition();

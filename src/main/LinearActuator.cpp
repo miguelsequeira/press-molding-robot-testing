@@ -11,7 +11,11 @@ void LinearActuator::init() {
 }
 
 void LinearActuator::setEnabled(int enabled) {
-    digitalWrite(enablePin, enabled);
+    if(enabled == HIGH) {
+        digitalWrite(enablePin, LOW);
+    } else {
+        digitalWrite(enablePin, HIGH);
+    }
 }
 
 void LinearActuator::setDirection(int direction) {

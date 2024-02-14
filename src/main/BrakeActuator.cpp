@@ -7,16 +7,19 @@ BrakeActuator::BrakeActuator(byte pin) {
 
 void BrakeActuator::init() {
   pinMode(pin, OUTPUT);
+  setBrake(HIGH);
 }
 
-void BrakeActuator::setDirection(int direction) {
-    this->direction = direction;
+void BrakeActuator::setBrake(int value) {
+    if(value == HIGH) {
+        this->brake = LOW;
+        digitalWrite(pin, LOW);
+    } else {
+        this->brake = HIGH;
+        digitalWrite(pin, HIGH);
+    }
 }
 
-void BrakeActuator::setAppliedPower(int appliedPower) {
-    analogWrite(pin, appliedPower);
-}
-
-int BrakeActuator::getAppliedPower() {
-    return appliedPower;
+int BrakeActuator::isBraked() {
+    return brake;
 }

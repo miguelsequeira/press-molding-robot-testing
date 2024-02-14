@@ -13,6 +13,7 @@ void setup() {
     digitalWrite(CONTROLLINO_R1, machineOn); // Light/Fan Relay
 }
 
+
 void loop() {
     runTests();
 }

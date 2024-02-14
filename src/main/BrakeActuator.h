@@ -4,16 +4,14 @@
 class BrakeActuator {
 
   private:
-    int direction;
-    int appliedPower;
+    int brake;
     byte pin;
 
   public:
     BrakeActuator(byte pin);
 
     void init();
-    void setDirection(int direction);
-    void setAppliedPower(int appliedPower);
-    int getAppliedPower();
+    void setBrake(int value);
+    int isBraked();
 };
 #endif
