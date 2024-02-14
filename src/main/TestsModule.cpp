@@ -1,3 +1,4 @@
+#define ENCODER_OPTIMIZE_INTERRUPTS
 #include <Controllino.h>
 #include "TestsModule.h"
 #include "State.h"
