@@ -69,11 +69,6 @@ int HandController::getClosedButton() {
         for(int j=0; j<2; j++) {
             digitalWrite(pinOut[((j+1)%2)], LOW);
             digitalWrite(pinOut[j], HIGH);
-            Serial.print("reading ");
-            Serial.print(i);
-            Serial.print(" = ");
-            Serial.print(analogRead(pinIn[i]));
-            Serial.println();
             if(analogRead(pinIn[i]) > threshold) {
                 buttonSelected = buttonsCodes[counter];
                 counterButtonsPressed++;

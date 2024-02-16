@@ -14,6 +14,8 @@
 
 
 Led leds[] = {Led(CONTROLLINO_D8), Led(CONTROLLINO_D9), Led(CONTROLLINO_D10)};
+Led topLed = {Led(CONTROLLINO_D8, CONTROLLINO_D9, CONTROLLINO_D10)};
+Led handRGBLed = {Led(CONTROLLINO_D15, CONTROLLINO_D16, CONTROLLINO_D17)};
 
 Led handLeds[] = {Led(CONTROLLINO_D15), Led(CONTROLLINO_D16), Led(CONTROLLINO_D17), Led(CONTROLLINO_D18), Led(CONTROLLINO_D19), Led(CONTROLLINO_D20), Led(CONTROLLINO_D21), Led(CONTROLLINO_D22), Led(CONTROLLINO_D23)};
 
@@ -37,27 +39,27 @@ void TestsModule::run() {
 //
     disableAll();
 
-    //runActuators();
-    runSensors();
+    runActuators();
+    //runSensors();
 }
 
 
 void TestsModule::runActuators() {
-    testStepperYY();
+//    testStepperYY();
 //    testStepperZZ();
-    testLinearActuator();
-    testPushPullMotor();
-    testBrakeActuator();
+//    testLinearActuator();
+//    testPushPullMotor();
+//    testBrakeActuator();
         
-    testLeds();
+    testTopLed();
+        //testHandLeds();
 }
 
 
 void TestsModule::runSensors() {   
 //    testInductiveSensor();
 //    testEncoder();
-    //testHandController();
-    //testHandLeds();
+    testHandController();
     //testHandControllerObj();
 
 }
@@ -189,13 +191,32 @@ void TestsModule::testInductiveSensor() {
 }
 
 
-void TestsModule::testLeds() {
+void TestsModule::testTopLed() {
 
-    for (int i = 0; i <= 2; i++) {
-      leds[i].on();
-      delay(1000);
-      leds[i].off();
-    }
+    topLed.onRGB(HIGH, LOW, LOW);
+    handRGBLed.onRGB(HIGH, LOW, LOW);
+    delay(1000);
+    topLed.onRGB(LOW, HIGH, LOW);
+    handRGBLed.onRGB(LOW, HIGH, LOW);
+    delay(1000);
+    topLed.onRGB(LOW, LOW, HIGH);
+    handRGBLed.onRGB(LOW, LOW, HIGH);
+    delay(1000);
+    topLed.onRGB(HIGH, HIGH, LOW);
+    handRGBLed.onRGB(HIGH, HIGH, LOW);
+    delay(1000);
+    topLed.onRGB(LOW, HIGH, HIGH);
+    handRGBLed.onRGB(LOW, HIGH, HIGH);
+    delay(1000);
+    topLed.onRGB(HIGH, LOW, HIGH);
+    handRGBLed.onRGB(HIGH, LOW, HIGH);
+    delay(1000);
+    topLed.onRGB(HIGH, HIGH, HIGH);
+    handRGBLed.onRGB(HIGH, HIGH, HIGH);
+    delay(1000);
+    topLed.offRGB();
+    handRGBLed.offRGB();
+    delay(1000);
 }
 
 
