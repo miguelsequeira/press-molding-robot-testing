@@ -7,6 +7,8 @@ class TestsModule {
     TestsModule();
 
     void run();
+    void runSensors();
+    void runActuators();
     void disableAll();
     void testLeds();
     void testInductiveSensor();
@@ -16,5 +18,8 @@ class TestsModule {
     void testStepperZZ();
     void testLinearActuator();
     void testPushPullMotor();
+    void testHandController();
+    void testHandControllerObj();
+    void testHandLeds();
 };
 #endif

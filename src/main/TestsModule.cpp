@@ -1,5 +1,6 @@
 #define ENCODER_OPTIMIZE_INTERRUPTS
 #include <Controllino.h>
+#include <Encoder.h>
 #include "TestsModule.h"
 #include "State.h"
 #include "Led.h"
@@ -9,10 +10,12 @@
 #include "Stepper.h"
 #include "LinearActuator.h"
 #include "PushPullMotor.h"
-#include <Encoder.h>
+#include "HandController.h"
 
 
 Led leds[] = {Led(CONTROLLINO_D8), Led(CONTROLLINO_D9), Led(CONTROLLINO_D10)};
+
+Led handLeds[] = {Led(CONTROLLINO_D15), Led(CONTROLLINO_D16), Led(CONTROLLINO_D17), Led(CONTROLLINO_D18), Led(CONTROLLINO_D19), Led(CONTROLLINO_D20), Led(CONTROLLINO_D21), Led(CONTROLLINO_D22), Led(CONTROLLINO_D23)};
 
 Stepper stepperYY = Stepper(CONTROLLINO_D3, CONTROLLINO_D4, CONTROLLINO_D5);
 Stepper stepperZZ = Stepper(CONTROLLINO_D0, CONTROLLINO_D1, CONTROLLINO_D2);
@@ -22,6 +25,11 @@ InductiveSensor sensor = InductiveSensor(CONTROLLINO_A1);
 BrakeActuator brakeActuator = BrakeActuator(CONTROLLINO_R12);
 Encoder encoder = Encoder(CONTROLLINO_IN0, CONTROLLINO_IN1);
 
+byte handControllerIns[] = {CONTROLLINO_A10, CONTROLLINO_A11, CONTROLLINO_A12, CONTROLLINO_A13};
+byte handControllerOuts[] = {CONTROLLINO_D13, CONTROLLINO_D14};
+byte handControllerLeds[] = {CONTROLLINO_D15, CONTROLLINO_D18, CONTROLLINO_D19, CONTROLLINO_D20, CONTROLLINO_D21, CONTROLLINO_D22, CONTROLLINO_D23};
+HandController handController = HandController(handControllerIns, handControllerOuts, handControllerLeds);
+
 TestsModule::TestsModule() {
 }
 
@@ -29,25 +37,57 @@ void TestsModule::run() {
 //
     disableAll();
 
-//    testStepperYY();
+    //runActuators();
+    runSensors();
+}
+
+
+void TestsModule::runActuators() {
+    testStepperYY();
 //    testStepperZZ();
-//    testLinearActuator();
-//    testPushPullMotor();
+    testLinearActuator();
+    testPushPullMotor();
+    testBrakeActuator();
+        
+    testLeds();
+}
 
 
+void TestsModule::runSensors() {   
 //    testInductiveSensor();
-    //testEncoder();
-//    testBrakeActuator();
+//    testEncoder();
+    //testHandController();
+    //testHandLeds();
+    //testHandControllerObj();
 
-    //testLeds();
 }
 
 void TestsModule::disableAll() {
-  brakeActuator.setBrake(LOW);
-  stepperYY.setEnabled(LOW);
-  stepperZZ.setEnabled(LOW);
-  linearActuator.setEnabled(LOW);
-  pushPullMotor.setEnabled(LOW);
+    brakeActuator.setBrake(HIGH);
+    stepperYY.setEnabled(LOW);
+    stepperZZ.setEnabled(LOW);
+    linearActuator.setEnabled(LOW);
+    pushPullMotor.setEnabled(LOW);
+}
+
+
+void TestsModule::testHandController() {
+    byte button = handController.getClosedButton();
+     Serial.print("Button Pressed = ");
+     Serial.print(button);
+     Serial.println();
+}
+
+
+void TestsModule::testHandControllerObj() {
+    Button* button = handController.getClosedButtonObj();
+    if(false) {
+        Serial.print("Button Pressed = ");
+        Serial.print(button->getCode());
+        Serial.println();
+    } else {
+        Serial.print("Button NOT Pressed");
+    }
 }
 
 void TestsModule::testEncoder() {
@@ -83,6 +123,8 @@ void TestsModule::testPushPullMotor() {
     pushPullMotor.setDirection(LOW);
     delay(2000);
     pushPullMotor.setDirection(HIGH);
+    delay(2000);
+    pushPullMotor.setEnabled(LOW);
     delay(2000);
 }
 
@@ -151,7 +193,17 @@ void TestsModule::testLeds() {
 
     for (int i = 0; i <= 2; i++) {
       leds[i].on();
-      delay(5000);
+      delay(1000);
       leds[i].off();
+    }
+}
+
+
+void TestsModule::testHandLeds() {
+
+    for (int i = 0; i < 9; i++) {
+      handLeds[i].on();
+      delay(1000);
+      handLeds[i].off();
     }
 }
