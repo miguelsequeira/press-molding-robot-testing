@@ -39,7 +39,7 @@ void TestsModule::run() {
 //
     disableAll();
 
-    runActuators();
+    //runActuators();
     //runSensors();
 }
 
