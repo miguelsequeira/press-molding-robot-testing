@@ -10,7 +10,7 @@ class TestsModule {
     void runSensors();
     void runActuators();
     void disableAll();
-    void testTopLed();
+    void testRGBLeds();
     void testInductiveSensor();
     void testEncoder();
     void testBrakeActuator();

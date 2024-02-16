@@ -4,10 +4,10 @@ Led::Led(byte pin) {
   init();
 }
 Led::Led(byte pinR, byte pinG, byte pinB) {
-  this->pin = pin;
+  this->pin = pinR;
   this->pinG = pinG;
   this->pinB = pinB;
-  init();
+  initRGB();
 }
 void Led::init() {
   pinMode(pin, OUTPUT);

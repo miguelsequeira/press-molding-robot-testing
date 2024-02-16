@@ -17,7 +17,7 @@ Led leds[] = {Led(CONTROLLINO_D8), Led(CONTROLLINO_D9), Led(CONTROLLINO_D10)};
 Led topLed = {Led(CONTROLLINO_D8, CONTROLLINO_D9, CONTROLLINO_D10)};
 Led handRGBLed = {Led(CONTROLLINO_D15, CONTROLLINO_D16, CONTROLLINO_D17)};
 
-Led handLeds[] = {Led(CONTROLLINO_D15), Led(CONTROLLINO_D16), Led(CONTROLLINO_D17), Led(CONTROLLINO_D18), Led(CONTROLLINO_D19), Led(CONTROLLINO_D20), Led(CONTROLLINO_D21), Led(CONTROLLINO_D22), Led(CONTROLLINO_D23)};
+Led handLeds[] = {Led(CONTROLLINO_D15, CONTROLLINO_D16, CONTROLLINO_D17), Led(CONTROLLINO_D18), Led(CONTROLLINO_D19), Led(CONTROLLINO_D20), Led(CONTROLLINO_D21), Led(CONTROLLINO_D22), Led(CONTROLLINO_D23)};
 
 Stepper stepperYY = Stepper(CONTROLLINO_D3, CONTROLLINO_D4, CONTROLLINO_D5);
 Stepper stepperZZ = Stepper(CONTROLLINO_D0, CONTROLLINO_D1, CONTROLLINO_D2);
@@ -29,7 +29,7 @@ Encoder encoder = Encoder(CONTROLLINO_IN0, CONTROLLINO_IN1);
 
 byte handControllerIns[] = {CONTROLLINO_A10, CONTROLLINO_A11, CONTROLLINO_A12, CONTROLLINO_A13};
 byte handControllerOuts[] = {CONTROLLINO_D13, CONTROLLINO_D14};
-byte handControllerLeds[] = {CONTROLLINO_D15, CONTROLLINO_D18, CONTROLLINO_D19, CONTROLLINO_D20, CONTROLLINO_D21, CONTROLLINO_D22, CONTROLLINO_D23};
+byte handControllerLeds[] = {CONTROLLINO_D18, CONTROLLINO_D19, CONTROLLINO_D20, CONTROLLINO_D21, CONTROLLINO_D22, CONTROLLINO_D23};
 HandController handController = HandController(handControllerIns, handControllerOuts, handControllerLeds);
 
 TestsModule::TestsModule() {
@@ -51,8 +51,8 @@ void TestsModule::runActuators() {
 //    testPushPullMotor();
 //    testBrakeActuator();
         
-    testTopLed();
-        //testHandLeds();
+    testRGBLeds();
+    testHandLeds();
 }
 
 
@@ -191,7 +191,7 @@ void TestsModule::testInductiveSensor() {
 }
 
 
-void TestsModule::testTopLed() {
+void TestsModule::testRGBLeds() {
 
     topLed.onRGB(HIGH, LOW, LOW);
     handRGBLed.onRGB(HIGH, LOW, LOW);
@@ -222,7 +222,10 @@ void TestsModule::testTopLed() {
 
 void TestsModule::testHandLeds() {
 
-    for (int i = 0; i < 9; i++) {
+    handLeds[0].onRGB(HIGH, HIGH, HIGH);
+    delay(1000);
+    handLeds[0].offRGB();
+    for (int i = 1; i < 7; i++) {
       handLeds[i].on();
       delay(1000);
       handLeds[i].off();
