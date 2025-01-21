@@ -40,7 +40,7 @@ void TestsModule::run() {
     disableAll();
 
     //runActuators();
-    //runSensors();
+    runSensors();
 }
 
 
@@ -57,15 +57,15 @@ void TestsModule::runActuators() {
 
 
 void TestsModule::runSensors() {   
-//    testInductiveSensor();
+    testInductiveSensor();
 //    testEncoder();
-    testHandController();
+//    testHandController();
     //testHandControllerObj();
 
 }
 
 void TestsModule::disableAll() {
-    brakeActuator.setBrake(HIGH);
+    //brakeActuator.setBrake(HIGH);
     stepperYY.setEnabled(LOW);
     stepperZZ.setEnabled(LOW);
     linearActuator.setEnabled(LOW);
@@ -149,10 +149,10 @@ void TestsModule::testStepperZZ() {
     stepperZZ.setEnabled(HIGH);
     stepperZZ.setDirection(LOW);
     stepperZZ.setAppliedPower(1);
-    delay(2000);
+    delay(1000);
     stepperZZ.setAppliedPower(50);
     stepperZZ.setDirection(HIGH);
-    delay(2000);
+    delay(1000);
     stepperZZ.setAppliedPower(0);
     stepperZZ.setEnabled(LOW);
 }
