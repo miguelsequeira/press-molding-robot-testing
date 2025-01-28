@@ -86,12 +86,11 @@ void TestsModule::testHandController() {
 
 
 void TestsModule::testHandControllerObj() {
-handController.updateButtonStates();
-//handController.updateLEDs();
-Button *button = handController.getClosedButtonObj();
+    handController.updateButtonStates();
+    Button *button = handController.getClosedButtonObj();
     if(button != NULL && button->isPressed) {
         button->setLedOn();
-//        Serial.println(button->getCode());
+
         switch (button->getCode()) {
             case 0: topLed.onRGB(LOW, LOW, LOW);
                     break;
@@ -107,13 +106,6 @@ Button *button = handController.getClosedButtonObj();
                     break;
         }
     }
-//        Serial.print(F("Button Pressed = "));
-//        Serial.println(button->getCode());
-////        Serial.print(button->getCode());
-////        Serial.println();
-//    } else {
-//        Serial.println(F("Button NOT Pressed"));
-//    }
 }
 
 void TestsModule::testEncoder() {
