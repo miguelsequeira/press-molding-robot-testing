@@ -15,6 +15,16 @@
  *   * Button 3 (Start/Stop): 24V DC when pressed
  */
 
+#define BTN0_NOT_PRESSED    100
+#define BTN1_EMERGENCY      101
+#define BTN2_BLOCK_TRACK    102
+#define BTN3_GRAB_MOLD      103
+#define BTN4_ROTATE         104
+#define BTN5_FORWARD        105
+#define BTN6_BACKWARD       106
+#define BTN7_UP             107
+#define BTN8_DOWN           108
+
 // LED Pins
 #define LED_ROTATION CONTROLLINO_D15
 #define LED_Y_FWD CONTROLLINO_D16
@@ -74,18 +84,17 @@ HandController::HandController(byte pinIn[], byte pinLed[]) {
     pinMode(CONTROLLINO_D14, OUTPUT);
     digitalWrite(CONTROLLINO_D14, HIGH);
 
-
-
     Button but[8];
 
     for(int i=0; i<3; i++) {
-        but[i] = Button(buttonsCodes[i], pinIn[i], pinLed[i]);
-        but[6-i] = Button(buttonsCodes[6-i], pinIn[i], pinLed[6-i]);
+        but[i] = Button(i, pinIn[i], pinLed[i]);
+        but[6-i] = Button((6-i), pinIn[i], pinLed[6-i]);
     }
     but[3] = Button(buttonsCodes[3], pinIn[3], pinLed[3]);
 
     // Initialize button states
     for (int i = 0; i < 7; i++) {
+
         but[i].isPressed = false;
         but[i].ledState = false;
         but[i].lastButtonState = false;
@@ -99,21 +108,23 @@ HandController::HandController(byte pinIn[], byte pinLed[]) {
 Button* HandController::getClosedButtonObj() {
     int counter = 0;
 //    int counterButtonsPressed = 0;
-    updateButtonStates();
-    updateLEDs();
+    //updateButtonStates();
+    //updateLEDs();
     //Button *buttonSelected;
+    for(int i=0; i<8; i++) {
 
-//    for(int i=0; i<8; i++) {
-//        if(buttons[i].isClosed()) {
-//            return &buttons[i];
-////            buttons[i].setLedOn();
-//      //      *buttonSelected = buttons[i];
-////            counterButtonsPressed++;
-//       }else {
-////            buttons[i].setLedOff();
-//            return NULL;
-//       }
-//    }
+            if(buttons[i].isPressed) {
+                //Serial.println( buttons[i].position);
+                return &buttons[i];
+            } else {
+                buttons[i].setLedOff();
+
+            }
+            //Serial.println( buttons[i]->isClosed());
+
+        }
+    return &buttons[0];
+
 
 //    if(counterButtonsPressed > 1 || counterButtonsPressed == 0) {
 
@@ -121,6 +132,9 @@ Button* HandController::getClosedButtonObj() {
 
     return &buttons[0];
 }
+
+
+
 
 int HandController::getClosedButton() {
 
@@ -172,13 +186,13 @@ void HandController::checkPinA9Buttons() {
     buttons[6].sampleCount++;
 
     if (buttons[0].sampleCount >= SAMPLES_FOR_PRESS) {
-        buttons[0].isPressed = (buttons[0].signalCount >= SAMPLES_FOR_PRESS * 0.8);
+        buttons[0].isPressed = (buttons[0].signalCount >= 1);
         buttons[0].signalCount = 0;
         buttons[0].sampleCount = 0;
     }
 
     if (buttons[6].sampleCount >= SAMPLES_FOR_PRESS) {
-        buttons[6].isPressed = (buttons[6].signalCount >= SAMPLES_FOR_PRESS * 0.8);
+        buttons[6].isPressed = (buttons[6].signalCount >= 1);
         buttons[6].signalCount = 0;
         buttons[6].sampleCount = 0;
     }
@@ -202,13 +216,13 @@ void HandController::checkPinA10Buttons() {
     buttons[5].sampleCount++;
 
     if (buttons[1].sampleCount >= SAMPLES_FOR_PRESS) {
-        buttons[1].isPressed = (buttons[1].signalCount >= SAMPLES_FOR_PRESS * 0.8);
+        buttons[1].isPressed = (buttons[1].signalCount >= 1);
         buttons[1].signalCount = 0;
         buttons[1].sampleCount = 0;
     }
 
     if (buttons[5].sampleCount >= SAMPLES_FOR_PRESS) {
-        buttons[5].isPressed = (buttons[5].signalCount >= SAMPLES_FOR_PRESS * 0.8);
+        buttons[5].isPressed = (buttons[5].signalCount >= 1);
         buttons[5].signalCount = 0;
         buttons[5].sampleCount = 0;
     }
@@ -232,13 +246,13 @@ void HandController::checkPinA11Buttons() {
     buttons[4].sampleCount++;
 
     if (buttons[2].sampleCount >= SAMPLES_FOR_PRESS) {
-        buttons[2].isPressed = (buttons[2].signalCount >= SAMPLES_FOR_PRESS * 0.8);
+        buttons[2].isPressed = (buttons[2].signalCount >= 1);
         buttons[2].signalCount = 0;
         buttons[2].sampleCount = 0;
     }
 
     if (buttons[4].sampleCount >= SAMPLES_FOR_PRESS) {
-        buttons[4].isPressed = (buttons[4].signalCount >= SAMPLES_FOR_PRESS * 0.8);
+        buttons[4].isPressed = (buttons[4].signalCount >= 1);
         buttons[4].signalCount = 0;
         buttons[4].sampleCount = 0;
     }
@@ -256,7 +270,7 @@ void HandController::checkPinA12Buttons() {
     buttons[3].sampleCount++;
 
     if (buttons[3].sampleCount >= SAMPLES_FOR_PRESS) {
-        buttons[3].isPressed = (buttons[3].signalCount >= SAMPLES_FOR_PRESS * 0.8);
+        buttons[3].isPressed = (buttons[3].signalCount >= 1);
         buttons[3].signalCount = 0;
         buttons[3].sampleCount = 0;
     }

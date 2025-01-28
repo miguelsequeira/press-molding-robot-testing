@@ -6,13 +6,13 @@ class Button {
   private:
     byte pinIn, pinOut1, pinOut2, pinLed;
     byte out1Value, out2Value;
-    byte position;
+
 
 
 
   public:
     Button();
-    Button(byte position, byte pinIn, byte pinLed);
+    Button(int position, byte pinIn, byte pinLed);
 
             bool isPressed;           // Current button press state
             bool ledState;           // Current LED state
@@ -20,11 +20,12 @@ class Button {
             int signalCount;         // Count of valid signals during sampling
             int sampleCount;         // Total samples taken
             unsigned long lastToggleTime; // Time of last toggle
+            int position;
 
     void init();
     bool isClosed();
     void setLedOn();
     void setLedOff();
-    byte getCode();
+    int getCode();
 };
 #endif

@@ -3,12 +3,12 @@
 Button::Button() {
 }
 
-Button::Button(byte position, byte pinIn, byte pinLed) {
+Button::Button(int position, byte pinIn, byte pinLed) {
   this->position = position;
   this->pinIn = pinIn;
   this->pinLed = pinLed;
   //init();
-  //setLedOff();
+  setLedOff();
 }
 
 void Button::init() {
@@ -31,6 +31,6 @@ void Button::setLedOn() {
 void Button::setLedOff() {
   digitalWrite(pinLed, LOW);
 }
-byte Button::getCode() {
+int Button::getCode() {
     return position;
 }

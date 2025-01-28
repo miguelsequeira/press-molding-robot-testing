@@ -28,7 +28,7 @@ BrakeActuator brakeActuator = BrakeActuator(CONTROLLINO_R13);
 Encoder encoder = Encoder(CONTROLLINO_IN0, CONTROLLINO_IN1);
 
 byte handControllerIns[] = {CONTROLLINO_A9, CONTROLLINO_A10, CONTROLLINO_A11, CONTROLLINO_A12};
-byte handControllerLeds[] = {CONTROLLINO_D15, CONTROLLINO_D16, CONTROLLINO_D17, CONTROLLINO_D18, CONTROLLINO_D19, CONTROLLINO_D20};
+byte handControllerLeds[] = {CONTROLLINO_D15, CONTROLLINO_D16, CONTROLLINO_D17, CONTROLLINO_D21, CONTROLLINO_D18, CONTROLLINO_D19, CONTROLLINO_D20};
 HandController handController = HandController(handControllerIns, handControllerLeds);
 
 
@@ -87,14 +87,32 @@ void TestsModule::testHandController() {
 
 void TestsModule::testHandControllerObj() {
 handController.updateButtonStates();
-handController.updateLEDs();
-//    Button* button = handController.getClosedButtonObj();
-//    if(button->isClosed()) {
-//        Serial.print("Button Pressed = ");
-//        Serial.print(button->getCode());
-//        Serial.println();
+//handController.updateLEDs();
+Button *button = handController.getClosedButtonObj();
+    if(button != NULL && button->isPressed) {
+        button->setLedOn();
+//        Serial.println(button->getCode());
+        switch (button->getCode()) {
+            case 0: topLed.onRGB(LOW, LOW, LOW);
+                    break;
+            case 1: topLed.onRGB(LOW, LOW, LOW);
+                    break;
+            case 2: topLed.onRGB(LOW, LOW, LOW);
+                    break;
+            case 4: topLed.onRGB(LOW, LOW, LOW);
+                    break;
+            case 5: topLed.onRGB(LOW, LOW, LOW);
+                    break;
+            case 6: topLed.onRGB(HIGH, HIGH, HIGH);
+                    break;
+        }
+    }
+//        Serial.print(F("Button Pressed = "));
+//        Serial.println(button->getCode());
+////        Serial.print(button->getCode());
+////        Serial.println();
 //    } else {
-//        Serial.print("Button NOT Pressed");
+//        Serial.println(F("Button NOT Pressed"));
 //    }
 }
 
