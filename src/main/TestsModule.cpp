@@ -28,9 +28,9 @@ BrakeActuator brakeActuator = BrakeActuator(CONTROLLINO_R13);
 Encoder encoder = Encoder(CONTROLLINO_IN0, CONTROLLINO_IN1);
 
 byte handControllerIns[] = {CONTROLLINO_A9, CONTROLLINO_A10, CONTROLLINO_A11, CONTROLLINO_A12};
-byte handControllerOuts[] = {CONTROLLINO_D13, CONTROLLINO_D14};
 byte handControllerLeds[] = {CONTROLLINO_D15, CONTROLLINO_D16, CONTROLLINO_D17, CONTROLLINO_D18, CONTROLLINO_D19, CONTROLLINO_D20};
-HandController handController = HandController(handControllerIns, handControllerOuts, handControllerLeds);
+HandController handController = HandController(handControllerIns, handControllerLeds);
+
 
 TestsModule::TestsModule() {
 }
@@ -43,8 +43,8 @@ void TestsModule::run() {
     // apply
 
 
-    runActuators();
- //   runSensors();
+    //runActuators();
+    runSensors();
 }
 
 
@@ -61,10 +61,10 @@ void TestsModule::runActuators() {
 
 
 void TestsModule::runSensors() {   
-    testInductiveSensor();
+    //testInductiveSensor();
 //    testEncoder();
   //  testHandController();
-    //testHandControllerObj();
+    testHandControllerObj();
 
 }
 
@@ -86,14 +86,16 @@ void TestsModule::testHandController() {
 
 
 void TestsModule::testHandControllerObj() {
-    Button* button = handController.getClosedButtonObj();
-    if(false) {
-        Serial.print("Button Pressed = ");
-        Serial.print(button->getCode());
-        Serial.println();
-    } else {
-        Serial.print("Button NOT Pressed");
-    }
+handController.updateButtonStates();
+handController.updateLEDs();
+//    Button* button = handController.getClosedButtonObj();
+//    if(button->isClosed()) {
+//        Serial.print("Button Pressed = ");
+//        Serial.print(button->getCode());
+//        Serial.println();
+//    } else {
+//        Serial.print("Button NOT Pressed");
+//    }
 }
 
 void TestsModule::testEncoder() {

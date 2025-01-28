@@ -18,16 +18,23 @@ class HandController {
 
   private:
     byte* pinIn;
-    byte* pinOut;
     byte* pinLed;
     Button* buttons;
 
   public:
-    HandController(byte pinIn[], byte pinOut[], byte pinLed[]);
+    HandController(byte pinIn[], byte pinLed[]);
 
     void init();
 
     int getClosedButton();
     Button* getClosedButtonObj();
+
+    void checkPinA9Buttons();
+    void checkPinA10Buttons();
+    void checkPinA11Buttons();
+    void checkPinA12Buttons();
+
+    void updateButtonStates();
+    void updateLEDs();
 };
 #endif
